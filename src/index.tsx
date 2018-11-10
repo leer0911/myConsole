@@ -1,11 +1,17 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import 'antd-mobile/dist/antd-mobile.css';
+import { TsExample } from "./components/TsExample";
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
-);
+export class Index extends React.Component<any, any> {
+  render() {
+    return (<div>
+      <TsExample compiler="TypeScript" />
+    </div>);
+  }
+}
+
+ReactDOM.render(<Index />, document.getElementById("root"));
+
 registerServiceWorker();
