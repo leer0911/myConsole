@@ -23,6 +23,7 @@
     ],
     "jsx-boolean-value": [
       "never"
-    ]
+    ],
+    "object-literal-sort-keys": false
   }
 }
