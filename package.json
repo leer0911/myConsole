@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd-mobile": "^2.2.6",
+    "rc-table": "^6.4.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
     "react-scripts-ts": "3.1.0"
