@@ -16,11 +16,7 @@ interface State {
 }
 
 export class DataItem extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { open: !!this.props.startOpen, loading: false };
-  }
-
+  state: State = { open: !!this.props.startOpen, loading: false };
   componentDidMount() {
     if (this.state.open && this.props.value) {
       this.setState({ loading: true, open: true });
@@ -31,6 +27,10 @@ export class DataItem extends React.Component<Props, State> {
     return () => {
       if (this.state.loading) {
         return;
+      }
+
+      if (!Object.keys(this.props.value).length) {
+        return
       }
 
       this.setState({
@@ -59,19 +59,20 @@ export class DataItem extends React.Component<Props, State> {
     const open = this.state.open;
     let opener = null;
 
-    if (complex) {
+    if (complex && Object.keys(this.props.value).length) {
       opener = (
         <div onClick={this.toggleOpen()} className="my-opener">
           {open ? (
             <span className="my-opener-open" />
           ) : (
-            <span className="my-opener-close" />
-          )}
+              <span className="my-opener-close" />
+            )}
         </div>
       );
     }
 
     let children = null;
+
     if (complex && open) {
       children = (
         <div>

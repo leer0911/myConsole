@@ -72,12 +72,12 @@ export class DataView extends React.PureComponent<DataViewProps> {
 
     return (
       <ul className="my-code-container">
-        {data.proto && (
+        {data.__proto__ && (
           <DataItem
             key={'__proto__'}
             name={'__proto__'}
             startOpen={this.props.startOpen}
-            value={data.proto}
+            value={data.__proto__}
           />
         )}
         {elements}
