@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Flex, ActionSheet, List, SearchBar } from 'antd-mobile';
+import { DataView } from '../../components/DataView/DataView'
 
 const FlexItem = Flex.Item
 const ListItem = List.Item
@@ -19,9 +20,9 @@ export class Log extends React.Component<any, any>{
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
         <FlexItem>
           <List>
-            <ListItem>Log</ListItem>
-            <ListItem>Log</ListItem>
-            <ListItem>Log</ListItem>
+            <ListItem>
+              <DataView data={this} />
+            </ListItem>
           </List>
         </FlexItem>
         <SearchBar placeholder="输入要查询的变量" showCancelButton cancelText="OK"/>
