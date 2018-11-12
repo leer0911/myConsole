@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
@@ -13,17 +9,10 @@
   },
   "rules": {
     "ordered-imports": false,
-    "interface-name": [
-      true,
-      "never-prefix"
-    ],
-    "member-access": [
-      true,
-      "no-public"
-    ],
-    "jsx-boolean-value": [
-      "never"
-    ],
-    "object-literal-sort-keys": false
+    "interface-name": [true, "never-prefix"],
+    "member-access": [true, "no-public"],
+    "jsx-boolean-value": ["never"],
+    "object-literal-sort-keys": false,
+    "no-console": false
   }
 }
