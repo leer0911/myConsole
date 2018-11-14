@@ -6,6 +6,7 @@ import { Network } from './network';
 import { Storage } from './storage';
 import { System } from './system';
 import { logStore } from './store';
+import { observer } from 'mobx-react';
 
 const tabs = [
   { title: 'Log' },
@@ -24,6 +25,7 @@ interface State {
   paneShow: boolean;
 }
 
+@observer
 export class MyConsole extends React.Component<any, State> {
   console: any = {};
   state: State = {
@@ -33,11 +35,11 @@ export class MyConsole extends React.Component<any, State> {
   componentDidMount() {
     this.mockConsole();
   }
-  showModal = (key: any) => (e: any) => {
+  togglePane = (key: any) => (e: any) => {
     e.preventDefault(); // 修复 Android 上点击穿透
     this.setState({
       ...this.state,
-      [key]: true
+      [key]: !this.state[key]
     });
   };
   onClose = (key: any) => () => {
@@ -98,7 +100,7 @@ export class MyConsole extends React.Component<any, State> {
     return (
       <div>
         <Button
-          onClick={this.showModal('paneShow')}
+          onClick={this.togglePane('paneShow')}
           type="primary"
           style={{
             width: '150px',
@@ -117,7 +119,10 @@ export class MyConsole extends React.Component<any, State> {
         >
           <div style={{ height: '80vh' }}>
             <Tabs tabs={tabs} animated={false} tabBarBackgroundColor="#efefef">
-              <Log logList={logStore.logList} />
+              <Log
+                logList={logStore.logList}
+                togglePane={this.togglePane('paneShow')}
+              />
               <System />
               <Network />
               <Element />

@@ -12,6 +12,10 @@ class LogStore {
   addLog(log: Log) {
     this.logList.push(log);
   }
+  @action
+  clearLog() {
+    this.logList = [];
+  }
 }
 
 export const logStore = new LogStore();
