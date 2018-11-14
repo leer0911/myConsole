@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Flex, ActionSheet, List, SearchBar } from 'antd-mobile';
-import { DataView } from '../../components/dataView/';
+import { DataView } from '../../components/logView/';
 import { logStore } from '../store';
 import { observer } from 'mobx-react';
 
