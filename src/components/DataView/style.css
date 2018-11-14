@@ -20,12 +20,12 @@
   word-break: break-word;
   margin-left: 10px;
   flex: 1;
-  color: rgb(12, 150, 12);
+  color: #183691;
 }
 
 .my-code-key {
   margin-left: 5px;
-  color: rgb(184, 53, 53);
+  color: #905;
 }
 
 .my-opener {

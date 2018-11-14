@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { DataView } from './DataView';
-import { Simple } from './Simple';
+import { DataList } from './dataList';
+import { Simple } from './simple';
 import { previewComplex } from './previewComplex';
 
 interface Props {
@@ -25,12 +25,19 @@ export class DataItem extends React.Component<Props, State> {
 
   toggleOpen() {
     return () => {
+      const data = this.props.value;
+      const isArray = Array.isArray(data);
+
       if (this.state.loading) {
         return;
       }
 
-      if (!Object.keys(this.props.value).length) {
-        return
+      if (!isArray && !Object.keys(this.props.value).length) {
+        return;
+      }
+
+      if (isArray && data.length === 0) {
+        return;
       }
 
       this.setState({
@@ -65,8 +72,8 @@ export class DataItem extends React.Component<Props, State> {
           {open ? (
             <span className="my-opener-open" />
           ) : (
-              <span className="my-opener-close" />
-            )}
+            <span className="my-opener-close" />
+          )}
         </div>
       );
     }
@@ -76,7 +83,7 @@ export class DataItem extends React.Component<Props, State> {
     if (complex && open) {
       children = (
         <div>
-          <DataView data={data} />
+          <DataList data={data} />
         </div>
       );
     }
@@ -91,7 +98,7 @@ export class DataItem extends React.Component<Props, State> {
         <div className="my-code-box">
           {opener}
           <div onClick={this.toggleOpen()} className="my-code-key">
-            {name}:
+            {name ? `${name}:` : ''}
           </div>
           <div className="my-code-val">{preview}</div>
         </div>
