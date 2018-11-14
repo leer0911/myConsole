@@ -41,13 +41,13 @@ export class MyConsole extends React.Component<any, State> {
       ...this.state,
       [key]: !this.state[key]
     });
-  };
+  }
   onClose = (key: any) => () => {
     this.setState({
       ...this.state,
       [key]: false
     });
-  };
+  }
   processLog(item: any) {
     const { logType } = item;
     let { logs = [] } = item;
@@ -63,7 +63,7 @@ export class MyConsole extends React.Component<any, State> {
     this.printOriginLog(item);
   }
   clearLog() {
-    // console.log('a');
+    logStore.clearLog()
   }
   printOriginLog(item: any) {
     // 在原生 console 输出信息
@@ -120,7 +120,7 @@ export class MyConsole extends React.Component<any, State> {
           <div style={{ height: '80vh' }}>
             <Tabs tabs={tabs} animated={false} tabBarBackgroundColor="#efefef">
               <Log
-                logList={logStore.logList}
+                logList={logStore.computeLogList}
                 togglePane={this.togglePane('paneShow')}
               />
               <System />

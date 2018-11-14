@@ -7,9 +7,17 @@ import { observer } from 'mobx-react';
 const FlexItem = Flex.Item;
 const ListItem = List.Item;
 
+interface State {
+  searchVal: string
+}
+
 @observer
-export class Log extends React.Component<any, any> {
+export class Log extends React.Component<any, State> {
   console: any = {};
+  searchBar: any = null;
+  state: State = {
+    searchVal: ''
+  }
   componentDidMount() {
     console.log(this);
   }
@@ -17,6 +25,11 @@ export class Log extends React.Component<any, any> {
     const BUTTONS = ['All', 'Log', 'Info', 'Warn', 'Error'];
     ActionSheet.showActionSheetWithOptions({
       options: BUTTONS
+    }, (i) => {
+      if (!BUTTONS[i]) {
+        return
+      }
+      logStore.changeLogType(BUTTONS[i])
     });
   }
   renderLogList() {
@@ -26,8 +39,8 @@ export class Log extends React.Component<any, any> {
         return typeof info !== 'object' || info === null ? (
           <div key={i}>{`${info}`}</div>
         ) : (
-          <DataView data={info} key={i} />
-        );
+            <DataView data={info} key={i} />
+          );
       });
       let ret = null;
       switch (log.logType) {
@@ -86,14 +99,41 @@ export class Log extends React.Component<any, any> {
       // cl
     };
   }
+  sendCMD() {
+    return (cmd: string) => {
+      let result = void 0;
+      try {
+        result = eval.call(window, '(' + cmd + ')');
+      } catch (e) {
+        try {
+          result = eval.call(window, cmd);
+        } catch (e) {
+          ;
+        }
+      }
+      logStore.addLog({ logType: 'log', infos: [result] })
+      this.setState({
+        searchVal: ''
+      })
+      this.searchBar.focus()
+    }
+  }
+  onChange = (searchVal: string) => {
+    this.setState({ searchVal });
+  };
   render() {
     return (
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
         <FlexItem style={{ overflow: 'auto' }}>{this.renderLogList()}</FlexItem>
         <SearchBar
+          value={this.state.searchVal}
           placeholder="输入要查询的变量"
           showCancelButton
           cancelText="OK"
+          ref={ref => this.searchBar = ref}
+          onCancel={this.sendCMD()}
+          onSubmit={this.sendCMD()}
+          onChange={this.onChange}
         />
         <Flex
           align="stretch"
@@ -117,7 +157,7 @@ export class Log extends React.Component<any, any> {
             justify="center"
             onClick={this.showFilter}
           >
-            Filter
+            {logStore.logType}
           </Flex>
           <Flex
             onClick={this.props.togglePane}
