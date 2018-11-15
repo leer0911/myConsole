@@ -2,9 +2,8 @@ import * as React from "react";
 import { parseDOM } from 'htmlparser2'
 import { renderToString } from 'react-dom/server'
 import { Container } from './container'
-import './themes/index.css'
-
-
+import './themes/index.styl'
+import './themes/chrome-devtools.styl'
 
 interface Props {
   source: any;
