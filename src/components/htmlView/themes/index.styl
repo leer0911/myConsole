@@ -1,0 +1,77 @@
+/**
+ * Theme: Index
+ *
+ * Basic styles
+ */
+
+$text = #555;
+$backgroundHover = lightgrey;
+$backgroundSelected = grey;
+$backgroundUnfocused = darkgrey;
+
+.HTMLTree {
+
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: inherit;
+
+  font-family: 'monospace';
+  font-size: 11;
+  line-height: 1.5;
+  user-select: none;
+  cursor: default;
+
+  & .Container {
+    width: 100%;
+    // TODO:
+    // - specify element to remove border instead of all
+    *, *:before, *:after {
+      border: 0;
+    }
+  }
+
+  & .Container__Input {
+    // ~> visibility: 'hidden' doesn't trigger focus/blur
+    position: absolute;
+    zIndex: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  & .Node {
+
+    &__Tag {
+      position: relative;
+      display: flex;
+
+      &:hover, &:not(.selected):not(.unfocused):hover ~ .Node__Tail, &.tailed {
+        background-color: $backgroundHover;
+      }
+      &.selected {
+        background-color: $backgroundSelected;
+      }
+      &.unfocused {
+        background-color: $backgroundUnfocused;
+      }
+    }
+
+    &__Container {
+      flex: 1;
+      white-space: nowrap;
+    }
+
+    &__Content {
+      white-space: pre;
+    }
+
+    &__Expander {
+      position: absolute;
+      color: $text
+      cursor: pointer;
+    }
+
+  }
+}

@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import 'antd-mobile/dist/antd-mobile.css';
-import { MyConsole } from "./console";
+import { HTMLTree } from "./components/htmlView/htmlTree";
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<MyConsole />, document.getElementById("root"));
+ReactDOM.render(<HTMLTree source={document.documentElement} defaultExpandedTags={['html', 'body']} />, document.getElementById("root"));
 
 registerServiceWorker();

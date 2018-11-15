@@ -16,11 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@types/htmlparser2@^3.7.31":
-  version "3.7.31"
-  resolved "http://registry.npm.taobao.org/@types/htmlparser2/download/@types/htmlparser2-3.7.31.tgz#ae89353691ce37fa2463c3b8b4698f20ef67a59b"
-  dependencies:
-    "@types/node" "*"
+"@types/classnames@^2.2.6":
+  version "2.2.6"
+  resolved "http://registry.npm.taobao.org/@types/classnames/download/@types/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
 
 "@types/jest@^23.3.9":
   version "23.3.9"
@@ -3366,6 +3364,10 @@ ignore-walk@^3.0.1:
   resolved "https://registry.yarnpkg.com/ignore-walk/-/ignore-walk-3.0.1.tgz#a83e62e7d272ac0e3b551aaa82831a19b69f82f8"
   dependencies:
     minimatch "^3.0.4"
+
+immutable@^4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "http://registry.npm.taobao.org/immutable/download/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
 
 import-lazy@^2.1.0:
   version "2.1.0"

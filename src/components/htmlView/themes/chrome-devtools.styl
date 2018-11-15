@@ -1,0 +1,112 @@
+/**
+ * # Theme: Chrome DevTools
+ *
+ *
+ */
+
+$background = #FFFFFF;
+$text = #434B53;
+$attributeKey = #A55B1F;
+$attributeValue = #3D3DB3;
+$wrap = #C3B5C1;
+$name = #8E1E87;
+$link = #1B1BEF;
+$comment = #4A884C;
+$backgroundHovered = #EBF2FC;
+$backgroundSelected = #3879D9;
+$attributeKeySelected = #B2BDCE;
+$selected = #FCFDFF; // value...
+$wrapSelected = #B2BDCE;
+$backgroundUnfocused = #DADADA;
+
+
+.HTMLTree {
+
+  background-color: $background;
+
+  & .Node {
+
+    &__Tag {
+      &:hover, &:not(.selected):not(.unfocused):hover ~ .Node__Tail, &.tailed {
+        background-color: $backgroundHovered;
+      }
+      &.selected {
+        background-color: $backgroundSelected;
+      }
+      &.unfocused {
+        background-color: $backgroundUnfocused;
+      }
+    }
+
+    &__Wrap {
+      color: $wrap;
+
+      &.selected {
+        color: $wrapSelected;
+      }
+    }
+
+    &__Container {
+      /.selected .Node__Container {
+        color: $selected;
+      }
+    }
+
+    &__Expander {
+      /.selected .Node__Expander {
+        color: $selected;
+      }
+    }
+
+    &__Text {
+      color: $text;
+      /.selected .Node__Text {
+        color: $selected;
+      }
+    }
+
+    &__Comment {
+      color: $comment;
+      /.selected .Node__Comment {
+        color: $selected;
+      }
+    }
+
+    &__Name {
+      color: $name;
+      /.selected .Node__Name {
+        color: $selected;
+      }
+    }
+
+    &__AttributeKey {
+      color: $attributeKey;
+      /.selected .Node__AttributeKey {
+        color: $attributeKeySelected;
+      }
+    }
+
+    &__AttributeValue {
+      color: $attributeValue;
+      /.selected .Node__AttributeValue {
+        color: $selected;
+      }
+
+      &.link {
+        color: $link;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+        /.selected .Node__AttributeValue.link {
+          color: $selected;
+        }
+      }
+
+      &.external {
+        text-decoration: initial;
+      }
+    }
+
+  }
+}
