@@ -1,16 +1,16 @@
 import { observable, action, computed } from 'mobx';
 
-interface Log {
+export interface LogType {
   logType: string;
   infos: any[];
 }
 
-class LogStore {
-  @observable logList: Log[] = [];
+export class LogStore {
+  @observable logList: LogType[] = [];
   @observable logType: string = 'All';
 
   @action
-  addLog(log: Log) {
+  addLog(log: LogType) {
     this.logList.push(log);
   }
   @action
@@ -19,7 +19,7 @@ class LogStore {
   }
   @computed
   get computeLogList() {
-    let ret = []
+    let ret: LogType[] = []
     if (this.logType === 'All') {
       ret = this.logList
     } else {
@@ -35,4 +35,4 @@ class LogStore {
   }
 }
 
-export const logStore = new LogStore();
+export default new LogStore()

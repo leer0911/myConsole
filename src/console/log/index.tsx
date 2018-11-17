@@ -1,22 +1,29 @@
-import * as React from 'react';
+import React, { createRef, Component } from 'react';
 import { Flex, ActionSheet, List, SearchBar } from 'antd-mobile';
 import { DataView } from '../../components/logView/';
 import { logStore } from '../store';
+import { LogType } from '../store/log';
 import { observer } from 'mobx-react';
 
 const FlexItem = Flex.Item;
 const ListItem = List.Item;
+
+interface Props {
+  logList: LogType[]
+}
 
 interface State {
   searchVal: string
 }
 
 @observer
-export class Log extends React.Component<any, State> {
-  console: any = {};
-  searchBar: any = null;
-  state: State = {
-    searchVal: ''
+export default class Log extends Component<Props, State> {
+  private searchBarRef = createRef<SearchBar>()
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      searchVal: ''
+    };
   }
   componentDidMount() {
     console.log(this);
@@ -34,7 +41,7 @@ export class Log extends React.Component<any, State> {
   }
   renderLogList() {
     const { logList } = this.props;
-    return logList.map((log: any, index: number) => {
+    return logList.map((log: LogType, index: number) => {
       const dataView = log.infos.map((info: any, i: number) => {
         return typeof info !== 'object' || info === null ? (
           <div key={i}>{`${info}`}</div>
@@ -115,7 +122,7 @@ export class Log extends React.Component<any, State> {
       this.setState({
         searchVal: ''
       })
-      this.searchBar.focus()
+      this.searchBarRef.current!.focus()
     }
   }
   onChange = (searchVal: string) => {
@@ -130,7 +137,7 @@ export class Log extends React.Component<any, State> {
           placeholder="输入要查询的变量"
           showCancelButton
           cancelText="OK"
-          ref={ref => this.searchBar = ref}
+          ref={this.searchBarRef}
           onCancel={this.sendCMD()}
           onSubmit={this.sendCMD()}
           onChange={this.onChange}
@@ -160,7 +167,7 @@ export class Log extends React.Component<any, State> {
             {logStore.logType}
           </Flex>
           <Flex
-            onClick={this.props.togglePane}
+            // onClick={this.props.togglePane}
             align="center"
             style={{ flex: 1 }}
             justify="center"

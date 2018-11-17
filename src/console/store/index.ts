@@ -1,3 +1,3 @@
-import { logStore } from './log';
+import logStore from './log';
 
 export { logStore };

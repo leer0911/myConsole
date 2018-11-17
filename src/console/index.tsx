@@ -1,11 +1,12 @@
-import * as React from 'react';
+import React, { Component } from 'react';
+import Log from './log';
 import { Modal, Button, Tabs } from 'antd-mobile';
-import { Log } from './log';
 import { Element } from './element';
 import { Network } from './network';
 import { Storage } from './storage';
 import { System } from './system';
 import { logStore } from './store';
+import { LogType } from './store/log';
 import { observer } from 'mobx-react';
 
 const tabs = [
@@ -16,59 +17,51 @@ const tabs = [
   { title: 'Storage' }
 ];
 
-interface LogsInfotype {
-  logType: string;
-  infos: any[];
-}
 interface State {
-  logs: LogsInfotype[];
+  logs: LogType[];
   paneShow: boolean;
 }
 
 @observer
-export class MyConsole extends React.Component<any, State> {
+export class MyConsole extends Component<any, State> {
   console: any = {};
-  state: State = {
-    logs: [],
-    paneShow: false
-  };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      logs: [],
+      paneShow: false
+    };
+  }
   componentDidMount() {
     this.mockConsole();
   }
-  togglePane = (key: any) => (e: any) => {
-    e.preventDefault(); // 修复 Android 上点击穿透
+  togglePane = () => {
     this.setState({
-      ...this.state,
-      [key]: !this.state[key]
+      paneShow: !this.state.paneShow
     });
   }
-  onClose = (key: any) => () => {
-    this.setState({
-      ...this.state,
-      [key]: false
-    });
-  }
-  processLog(item: any) {
+  processLog(item: LogType) {
     const { logType } = item;
-    let { logs = [] } = item;
-    if (!logs.length) {
+    let { infos = [] } = item;
+    if (!infos.length) {
       return;
     }
 
     // copy logs as a new array
-    logs = [].slice.call(logs || []);
+    infos = [].slice.call(infos || []);
 
-    logStore.addLog({ logType, infos: logs });
+    logStore.addLog({ logType, infos });
 
     this.printOriginLog(item);
   }
   clearLog() {
     logStore.clearLog()
   }
-  printOriginLog(item: any) {
+  printOriginLog(item: LogType) {
     // 在原生 console 输出信息
-    if (typeof this.console[item.logType] === 'function') {
-      this.console[item.logType].apply(window.console, item.logs);
+    const { logType, infos } = item
+    if (typeof this.console[logType] === 'function') {
+      this.console[logType].apply(window.console, infos);
     }
   }
   mockConsole() {
@@ -86,7 +79,7 @@ export class MyConsole extends React.Component<any, State> {
       window.console[method] = (...args: any[]) => {
         this.processLog({
           logType: method,
-          logs: args
+          infos: args
         });
       };
     });
@@ -100,7 +93,7 @@ export class MyConsole extends React.Component<any, State> {
     return (
       <div>
         <Button
-          onClick={this.togglePane('paneShow')}
+          onClick={this.togglePane}
           type="primary"
           style={{
             width: '150px',
@@ -114,14 +107,14 @@ export class MyConsole extends React.Component<any, State> {
         <Modal
           popup
           visible={this.state.paneShow}
-          onClose={this.onClose('paneShow')}
+          onClose={this.togglePane}
           animationType="slide-up"
         >
           <div style={{ height: '80vh' }}>
             <Tabs tabs={tabs} animated={false} tabBarBackgroundColor="#efefef">
               <Log
                 logList={logStore.computeLogList}
-                togglePane={this.togglePane('paneShow')}
+              // togglePane={this.togglePane('paneShow')}
               />
               <System />
               <Network />
