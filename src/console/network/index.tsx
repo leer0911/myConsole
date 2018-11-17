@@ -1,31 +1,28 @@
 import * as React from 'react';
 import { Flex } from 'antd-mobile';
 import Table from 'rc-table';
+import "./index.css";
 
 const columns = [
   {
     title: 'Url',
     dataIndex: 'url',
     key: 'url',
-    width: 200
   },
   {
     title: 'Method',
     dataIndex: 'method',
     key: 'method',
-    width: 100
   },
   {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    width: 100
   },
   {
     title: 'Time',
     dataIndex: 'time',
     key: 'time',
-    width: 100
   }
 ];
 
@@ -36,17 +33,19 @@ interface ReqData {
   method: string;
   status: string;
   time: number;
+  response: any;
+  request: any;
 }
 
 interface State {
-  reqList: ReqData[];
+  reqList: { [propName: string]: ReqData; };
 }
 
 export class Network extends React.Component<any, State> {
   open: any = null;
   send: any = null;
   state = {
-    reqList: []
+    reqList: {}
   };
   componentDidMount() {
     this.mockAjax();
@@ -54,14 +53,28 @@ export class Network extends React.Component<any, State> {
   }
   sendXHR() {
     const XHR = new XMLHttpRequest();
-    XHR.open('GET', 'http://www.example.org/example.txt');
-    XHR.send();
+    XHR.open('GET', 'http://localhost:3000/sockjs-node/info?t=1542431358944');
+    XHR.send("requestData");
+  }
+  expandedRowRender = (record: any) => {
+    return (
+      <div>
+        <p>{`[ header ]`} <br /> {record.header}</p>
+        <p>{`[ request ]`}<br /> {record.request}</p>
+        <p>{`[ response ]`} <br />{record.response}</p>
+      </div>
+    )
+  }
+  changeToarr() {
+    return Object.keys(this.state.reqList).map(key => {
+      return this.state.reqList[key]
+    })
   }
   render() {
     return (
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
         <FlexItem>
-          <Table columns={columns} data={this.state.reqList} />
+          <Table expandRowByClick expandIconAsCell useFixedHeader expandedRowRender={this.expandedRowRender} columns={columns} data={this.changeToarr()} />
         </FlexItem>
         <Flex align="stretch" style={{ height: '50px', background: '#efefef' }}>
           <Flex
@@ -83,24 +96,55 @@ export class Network extends React.Component<any, State> {
     if (!XMLHttpRequest) {
       return;
     }
-    // const that = this;
+    const that = this;
     const XHRnativeOpen = XMLHttpRequest.prototype.open;
     const XHRnativeSend = XMLHttpRequest.prototype.send;
 
-    XMLHttpRequest.prototype.open = function(...args: any) {
-      const [url, method] = args;
-      // const id = `XHR${that.getUniqueID()}`;
+    XMLHttpRequest.prototype.open = function (...args: any) {
+      const [method, url] = args;
+      const id = `XHR${that.getUniqueID()}`;
       const userOnreadystatechange = this.onreadystatechange;
-
+      this.XHRID = id;
       this.XHRDATA = {
         url,
         method
       };
-
-      this.onreadystatechange = function(...stateArgs: any) {
-        if (this.readyState === 4) {
-          console.log(this);
+      this.onreadystatechange = function (...stateArgs: any) {
+        switch (this.readyState) {
+          case 0:
+            if (!this.startTime) {
+              this.startTime = (+new Date());
+            }
+            break;
+          case 1:
+            if (!this.startTime) {
+              this.startTime = (+new Date());
+            }
+            break;
+          case 2:
+            this.XHRDATA = {
+              ...this.XHRDATA,
+              header: this.getAllResponseHeaders()
+            }
+            that.updateRequest(this.XHRID, this.XHRDATA)
+            break;
+          case 4:
+            if (!this.endTime) {
+              this.endTime = (+new Date());
+            }
+            const { status, response } = this
+            this.XHRDATA = {
+              ...this.XHRDATA,
+              response,
+              status,
+              time: `${this.endTime - this.startTime} ms`
+            };
+            that.updateRequest(this.XHRID, this.XHRDATA)
+            break;
+          default:
+            break;
         }
+
         return (
           userOnreadystatechange &&
           userOnreadystatechange.apply(this, stateArgs)
@@ -109,7 +153,11 @@ export class Network extends React.Component<any, State> {
 
       return XHRnativeOpen.apply(this, args);
     };
-    XMLHttpRequest.prototype.send = function(...args: any) {
+    XMLHttpRequest.prototype.send = function (...args: any) {
+      this.XHRDATA = {
+        ...this.XHRDATA,
+        request: args[0]
+      };
       return XHRnativeSend.apply(this, args);
     };
   }
@@ -130,57 +178,15 @@ export class Network extends React.Component<any, State> {
 
     return id;
   }
-  updateRequest(id: any, reqData: any) {
-    // see whether add new item into list
-    // const preCount = Object.keys(this.reqList).length;
-    // console.log(preCount);
-
-    // update item
-    const item = this.state.reqList[id] || {};
-    for (const key in reqData) {
-      if (reqData.hasOwnProperty(key)) {
-        const element = reqData[key];
-        item[key] = element;
+  updateRequest(id: string, reqData: any) {
+    this.setState({
+      reqList: {
+        ...this.state.reqList,
+        [id]: {
+          ...this.state.reqList[id],
+          ...reqData
+        }
       }
-    }
-    // this.setState({
-    //   reqList: {
-    //     id: item
-    //   }
-    // });
+    })
   }
 }
-
-// function isPlainObject(obj: any) {
-//   const hasOwn = Object.prototype.hasOwnProperty;
-//   // Must be an Object.
-//   if (!obj || typeof obj !== 'object' || obj.nodeType || isWindow(obj)) {
-//     return false;
-//   }
-//   try {
-//     if (
-//       obj.constructor &&
-//       !hasOwn.call(obj, 'constructor') &&
-//       !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')
-//     ) {
-//       return false;
-//     }
-//   } catch (e) {
-//     return false;
-//   }
-
-//   return true;
-// }
-
-// function isString(value: any) {
-//   return Object.prototype.toString.call(value) === '[object String]';
-// }
-
-// function isWindow(value: any) {
-//   const toString = Object.prototype.toString.call(value);
-//   return (
-//     toString === '[object global]' ||
-//     toString === '[object Window]' ||
-//     toString === '[object DOMWindow]'
-//   );
-// }
