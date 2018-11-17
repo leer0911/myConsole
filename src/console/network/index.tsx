@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { Flex } from 'antd-mobile';
 import Table from 'rc-table';
 import "./index.css";
@@ -32,7 +32,8 @@ interface ReqData {
   url: string;
   method: string;
   status: string;
-  time: number;
+  header: string;
+  time: string;
   response: any;
   request: any;
 }
@@ -41,12 +42,15 @@ interface State {
   reqList: { [propName: string]: ReqData; };
 }
 
-export class Network extends React.Component<any, State> {
+export default class Network extends Component<any, State> {
   open: any = null;
   send: any = null;
-  state = {
-    reqList: {}
-  };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      reqList: {}
+    };
+  }
   componentDidMount() {
     this.mockAjax();
     this.sendXHR();
@@ -56,7 +60,7 @@ export class Network extends React.Component<any, State> {
     XHR.open('GET', 'http://localhost:3000/sockjs-node/info?t=1542431358944');
     XHR.send("requestData");
   }
-  expandedRowRender = (record: any) => {
+  expandedRowRender = (record: ReqData) => {
     return (
       <div>
         <p>{`[ header ]`} <br /> {record.header}</p>
@@ -65,7 +69,7 @@ export class Network extends React.Component<any, State> {
       </div>
     )
   }
-  changeToarr() {
+  getReqList() {
     return Object.keys(this.state.reqList).map(key => {
       return this.state.reqList[key]
     })
@@ -74,7 +78,7 @@ export class Network extends React.Component<any, State> {
     return (
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
         <FlexItem>
-          <Table expandRowByClick expandIconAsCell useFixedHeader expandedRowRender={this.expandedRowRender} columns={columns} data={this.changeToarr()} />
+          <Table expandRowByClick expandIconAsCell useFixedHeader expandedRowRender={this.expandedRowRender} columns={columns} data={this.getReqList()} />
         </FlexItem>
         <Flex align="stretch" style={{ height: '50px', background: '#efefef' }}>
           <Flex
@@ -178,7 +182,7 @@ export class Network extends React.Component<any, State> {
 
     return id;
   }
-  updateRequest(id: string, reqData: any) {
+  updateRequest(id: string, reqData: ReqData) {
     this.setState({
       reqList: {
         ...this.state.reqList,

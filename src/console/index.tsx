@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Log from './log';
 import System from './system';
+import Network from './network';
+import Storage from './storage';
 import { Modal, Button, Tabs } from 'antd-mobile';
 import { Element } from './element';
-import { Network } from './network';
-import { Storage } from './storage';
 import { logStore } from './store';
 import { LogType } from './store/log';
 import { observer } from 'mobx-react';

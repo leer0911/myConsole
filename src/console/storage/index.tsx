@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { Component } from "react";
 import { Flex } from 'antd-mobile';
 import Table from 'rc-table';
 
@@ -8,9 +8,14 @@ const columns = [{
   title: 'Value', dataIndex: 'value', key: 'value'
 }];
 
+interface StorageVal {
+  key: string;
+  value: string;
+}
+
 const FlexItem = Flex.Item
 
-export class Storage extends React.Component<any, any>{
+export default class Storage extends Component<any, any>{
   constructor(props: any) {
     super(props);
   }
@@ -19,11 +24,11 @@ export class Storage extends React.Component<any, any>{
       return [];
     }
 
-    const list: any[] = [];
+    const list: StorageVal[] = [];
     const items = document.cookie.split(';');
 
-    items.forEach((item: any) => {
-      const ret = item.split('=')
+    items.forEach((item: string) => {
+      const ret: any[] = item.split('=')
       if (ret) {
         const key = ret.shift().replace(/^ /, '');
         const value = ret.join('=');
@@ -43,7 +48,7 @@ export class Storage extends React.Component<any, any>{
     }
 
     try {
-      const list: any[] = []
+      const list: StorageVal[] = []
       for (const key in localStorage) {
         if (localStorage.hasOwnProperty(key)) {
           const value = localStorage[key];
