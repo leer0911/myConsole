@@ -1,34 +1,25 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { Flex, List } from 'antd-mobile';
-import { ReactNodeArray } from 'prop-types';
 
 const FlexItem = Flex.Item;
 const ListItem = List.Item;
 
-interface State {
-  infos: string[];
-}
 
-export class System extends React.Component<any, State> {
-  getMsg() {
+export default class System extends Component<any, any> {
+  render() {
     const Ua = navigator.userAgent;
+    const { href: Href } = window.location;
     const msg = {
-      Href: window.location.href,
+      Href,
       Ua
     };
-
-    return msg;
-  }
-
-  render() {
-    const msg = this.getMsg();
-    const list: ReactNodeArray = [];
+    const list: React.ReactNodeArray = [];
     for (const key in msg) {
       if (msg.hasOwnProperty(key)) {
         const val = msg[key];
         if (val) {
           list.push(
-            <ListItem wrap key={key + 1}>
+            <ListItem wrap key={key}>
               <span
                 style={{ color: '#6a5acd', fontSize: 12 }}
               >{`[ ${key} ] : ${val}`}</span>
