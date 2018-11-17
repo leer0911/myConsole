@@ -1,31 +1,50 @@
-import * as React from "react";
-import { Flex, ActionSheet, List } from 'antd-mobile';
+import * as React from 'react';
+import { Flex, List } from 'antd-mobile';
+import { ReactNodeArray } from 'prop-types';
 
-const FlexItem = Flex.Item
-const ListItem = List.Item
+const FlexItem = Flex.Item;
+const ListItem = List.Item;
 
-export class System extends React.Component<any, any>{
-  constructor(props: any) {
-    super(props);
+interface State {
+  infos: string[];
+}
+
+export class System extends React.Component<any, State> {
+  getMsg() {
+    const Ua = navigator.userAgent;
+    const msg = {
+      Href: window.location.href,
+      Ua
+    };
+
+    return msg;
   }
-  showFilter() {
-    const BUTTONS = ['All', 'Log', 'Info', 'Warn', 'Error'];
-    ActionSheet.showActionSheetWithOptions({
-      options: BUTTONS
-    })
-  }
+
   render() {
+    const msg = this.getMsg();
+    const list: ReactNodeArray = [];
+    for (const key in msg) {
+      if (msg.hasOwnProperty(key)) {
+        const val = msg[key];
+        if (val) {
+          list.push(
+            <ListItem wrap key={key + 1}>
+              <span
+                style={{ color: '#6a5acd', fontSize: 12 }}
+              >{`[ ${key} ] : ${val}`}</span>
+            </ListItem>
+          );
+        }
+      }
+    }
+
     return (
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
-        <FlexItem>
-          <List>
-            <ListItem>SystemInfo</ListItem>
-          </List>
-        </FlexItem>
+        <FlexItem>{list.length > 0 ? list : null}</FlexItem>
         <Flex align="stretch" style={{ height: '50px', background: '#efefef' }}>
-          <Flex align="center" style={{ flex: 1, borderRight: '1px solid #ddd' }} justify="center">Clear</Flex>
-          <Flex align="center" style={{ flex: 1, borderRight: '1px solid #ddd' }} justify="center" onClick={this.showFilter}>Filter</Flex>
-          <Flex align="center" style={{ flex: 1 }} justify="center">Hide</Flex>
+          <Flex align="center" style={{ flex: 1 }} justify="center">
+            Hide
+          </Flex>
         </Flex>
       </Flex>
     );
