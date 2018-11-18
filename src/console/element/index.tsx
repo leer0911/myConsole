@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Flex } from 'antd-mobile';
 import HTMLTree from '../../components/htmlView/htmlTree';
 
 const FlexItem = Flex.Item;
 
-export default class Element extends Component<any, any> {
+export default class Element extends PureComponent<any, any> {
   constructor(props: any) {
     super(props);
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Container from './container';
 import { parseDOM } from 'htmlparser2';
 import './themes/index.styl';
@@ -9,7 +9,7 @@ interface Props {
   defaultExpandedTags: string[];
 }
 
-export default class HTMLTree extends Component<Props> {
+export default class HTMLTree extends PureComponent<Props> {
 
 
   render() {

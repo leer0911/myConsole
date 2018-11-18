@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import './style.css';
 
 interface Props {
   data: any;
 }
 
-export class Simple extends React.Component<Props> {
+export class Simple extends PureComponent<Props> {
   constructor(props: any) {
     super(props);
   }

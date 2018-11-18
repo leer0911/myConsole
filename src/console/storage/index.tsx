@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Flex } from 'antd-mobile';
 import Table from 'rc-table';
 
@@ -15,7 +15,7 @@ interface StorageVal {
 
 const FlexItem = Flex.Item
 
-export default class Storage extends Component<any, any>{
+export default class Storage extends PureComponent<any, any>{
   constructor(props: any) {
     super(props);
   }

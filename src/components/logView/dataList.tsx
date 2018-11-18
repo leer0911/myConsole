@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { DataItem } from './dataItem';
 import './style.css';
 
@@ -8,7 +8,7 @@ interface DataListProps {
   noSort?: boolean;
 }
 
-export class DataList extends React.PureComponent<DataListProps> {
+export class DataList extends PureComponent<DataListProps> {
   renderItem(name: string, key: string) {
     const data = this.props.data;
     return (

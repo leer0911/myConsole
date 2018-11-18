@@ -18,7 +18,6 @@ const tabs = [
 ];
 
 interface State {
-  logs: LogType[];
   paneShow: boolean;
 }
 
@@ -28,12 +27,11 @@ export class MyConsole extends Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      logs: [],
       paneShow: false
     };
   }
   componentDidMount() {
-    // this.mockConsole();
+    this.mockConsole();
   }
   togglePane = () => {
     this.setState({

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { DataList } from './dataList';
 import './style.css';
 
@@ -11,7 +11,7 @@ interface State {
   open: boolean;
 }
 
-export class DataView extends React.PureComponent<DataViewProps, State> {
+export class DataView extends PureComponent<DataViewProps, State> {
   state: State = { open: !!this.props.startOpen };
   toggleOpen() {
     return () => {
@@ -48,8 +48,8 @@ export class DataView extends React.PureComponent<DataViewProps, State> {
               {open ? (
                 <span className="my-opener-open" />
               ) : (
-                <span className="my-opener-close" />
-              )}
+                  <span className="my-opener-close" />
+                )}
             </div>
             <div className="my-code-val">{preview}</div>
           </div>

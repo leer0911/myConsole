@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Flex, List } from 'antd-mobile';
 
 const FlexItem = Flex.Item;
 const ListItem = List.Item;
 
 
-export default class System extends Component<any, any> {
+export default class System extends PureComponent<any, any> {
   render() {
     const Ua = navigator.userAgent;
     const { href: Href } = window.location;

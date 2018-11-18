@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 
 // http://www.w3.org/TR/html-markup/syntax.html#void-elements
@@ -27,7 +27,7 @@ interface Props {
   update: any;
 }
 
-export default class Node extends Component<Props> {
+export default class Node extends PureComponent<Props> {
   render() {
     return this.getRenderable();
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Flex } from 'antd-mobile';
 import Table from 'rc-table';
 import "./index.css";
@@ -42,7 +42,7 @@ interface State {
   reqList: { [propName: string]: ReqData; };
 }
 
-export default class Network extends Component<any, State> {
+export default class Network extends PureComponent<any, State> {
   open: any = null;
   send: any = null;
   constructor(props: any) {

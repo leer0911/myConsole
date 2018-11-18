@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { DataList } from './dataList';
 import { Simple } from './simple';
 import { previewComplex } from './previewComplex';
@@ -15,7 +15,7 @@ interface State {
   loading: boolean;
 }
 
-export class DataItem extends React.Component<Props, State> {
+export class DataItem extends PureComponent<Props, State> {
   state: State = { open: !!this.props.startOpen, loading: false };
   componentDidMount() {
     if (this.state.open && this.props.value) {
@@ -72,8 +72,8 @@ export class DataItem extends React.Component<Props, State> {
           {open ? (
             <span className="my-opener-open" />
           ) : (
-            <span className="my-opener-close" />
-          )}
+              <span className="my-opener-close" />
+            )}
         </div>
       );
     }

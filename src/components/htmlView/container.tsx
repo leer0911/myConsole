@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Node from './node';
 import Immutable from 'immutable';
 import { getDepth, getSelector } from './tool';
@@ -12,16 +12,13 @@ interface State {
   root: any;
 }
 
-export default class Container extends Component<Props, State> {
+export default class Container extends PureComponent<Props, State> {
   timeout: any = null;
   constructor(props: Props) {
     super(props);
     this.state = {
       root: this.getRoot()
     };
-  }
-  componentDidMount() {
-    console.log(this.props);
   }
   render() {
     const { root } = this.state;
