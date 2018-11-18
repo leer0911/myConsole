@@ -1,35 +1,24 @@
-import * as React from 'react';
+import React, { Component } from 'react';
+import Container from './container';
 import { parseDOM } from 'htmlparser2';
-import { renderToString } from 'react-dom/server';
-import { Container } from './container';
 import './themes/index.styl';
 import './themes/chrome-devtools.styl';
 
 interface Props {
-  source: any;
-  defaultExpandedTags?: string[];
-  theme?: string;
+  source: HTMLElement;
+  defaultExpandedTags: string[];
 }
 
-const isBrowser = typeof HTMLElement !== 'undefined';
+export default class HTMLTree extends Component<Props> {
 
-export class HTMLTree extends React.Component<Props> {
+
   render() {
     const { source } = this.props;
-    const origin = isBrowser && source instanceof HTMLElement && source;
-    const tree = parseDOM(
-      origin
-        ? source.outerHTML
-        : React.isValidElement(source)
-        ? renderToString(source)
-        : source.replace(/<!DOCTYPE(.|\n|\r)*?>/i, '')
-    );
-
+    const tree = parseDOM(source.outerHTML);
     return (
       <div className="HTMLTree">
         <Container
           tree={tree}
-          origin={origin || null}
           defaultExpandedTags={this.props.defaultExpandedTags}
         />
       </div>

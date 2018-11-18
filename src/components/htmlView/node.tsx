@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import classnames from 'classnames';
 
 // http://www.w3.org/TR/html-markup/syntax.html#void-elements
@@ -27,7 +27,7 @@ interface Props {
   update: any;
 }
 
-export class Node extends React.Component<Props> {
+export default class Node extends Component<Props> {
   render() {
     return this.getRenderable();
   }
@@ -75,8 +75,8 @@ export class Node extends React.Component<Props> {
                 "<span className="Node__Text">{data}</span>"
               </span>
             ) : (
-              <span className="Node__Comment">{`<!--${data}-->`}</span>
-            )}
+                <span className="Node__Comment">{`<!--${data}-->`}</span>
+              )}
           </div>
         </div>
       );
@@ -184,17 +184,17 @@ export class Node extends React.Component<Props> {
                 {!isLink ? (
                   <span className="Node__AttributeValue">{value}</span>
                 ) : (
-                  <a
-                    className={classnames(['Node__AttributeValue'], {
-                      link: true,
-                      external: /^https?:/.test(value)
-                    })}
-                    href={value}
-                    target="_blank"
-                  >
-                    {value}
-                  </a>
-                )}
+                    <a
+                      className={classnames(['Node__AttributeValue'], {
+                        link: true,
+                        external: /^https?:/.test(value)
+                      })}
+                      href={value}
+                      target="_blank"
+                    >
+                      {value}
+                    </a>
+                  )}
                 "
               </span>
             );

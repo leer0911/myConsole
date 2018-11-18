@@ -1,29 +1,28 @@
-import * as React from 'react';
+import React, { Component } from 'react';
+import Node from './node';
 import Immutable from 'immutable';
 import { getDepth, getSelector } from './tool';
-import { Node } from './node';
 
 interface Props {
-  tree: any[];
-  origin: any;
-  defaultExpandedTags?: any[];
+  tree: object[];
+  defaultExpandedTags: string[];
 }
 
 interface State {
   root: any;
 }
 
-export class Container extends React.Component<Props, State> {
+export default class Container extends Component<Props, State> {
   timeout: any = null;
-
   constructor(props: Props) {
     super(props);
-    const { tree, defaultExpandedTags } = this.props;
     this.state = {
-      root: this.getRoot(tree, defaultExpandedTags)
+      root: this.getRoot()
     };
   }
-
+  componentDidMount() {
+    console.log(this.props);
+  }
   render() {
     const { root } = this.state;
     return (
@@ -34,12 +33,14 @@ export class Container extends React.Component<Props, State> {
       </div>
     );
   }
-  getRoot(tree: any, defaultExpandedTags: any) {
+  getRoot() {
+    const { tree, defaultExpandedTags } = this.props;
+
     transformNodes(tree, [], true);
     return Immutable.fromJS(tree[0]);
 
     // recursive enumeration
-    function transformNodes(trees: any, keyPath: any, initial?: any) {
+    function transformNodes(trees: any[], keyPath: any, initial?: boolean) {
       trees.forEach((node: any, i: number) => {
         node.depth = getDepth(node);
         node.selector = getSelector(node.name ? node : node.parent);

@@ -3,8 +3,8 @@ import Log from './log';
 import System from './system';
 import Network from './network';
 import Storage from './storage';
+import Element from './element';
 import { Modal, Button, Tabs } from 'antd-mobile';
-import { Element } from './element';
 import { logStore } from './store';
 import { LogType } from './store/log';
 import { observer } from 'mobx-react';
@@ -33,7 +33,7 @@ export class MyConsole extends Component<any, State> {
     };
   }
   componentDidMount() {
-    this.mockConsole();
+    // this.mockConsole();
   }
   togglePane = () => {
     this.setState({

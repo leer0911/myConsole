@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { Flex } from 'antd-mobile';
-import { HTMLTree } from '../../components/htmlView/htmlTree';
+import HTMLTree from '../../components/htmlView/htmlTree';
 
 const FlexItem = Flex.Item;
 
-export class Element extends React.Component<any, any> {
+export default class Element extends Component<any, any> {
   constructor(props: any) {
     super(props);
   }
@@ -13,10 +13,10 @@ export class Element extends React.Component<any, any> {
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
         <FlexItem style={{ overflow: 'hidden' }}>
           <div style={{ padding: '10px', overflow: 'auto', height: '100%' }}>
-            <HTMLTree
+            {document && document.documentElement ? <HTMLTree
               source={document.documentElement}
               defaultExpandedTags={['html', 'body']}
-            />
+            /> : null}
           </div>
         </FlexItem>
         <Flex align="stretch" style={{ height: '50px', background: '#efefef' }}>
