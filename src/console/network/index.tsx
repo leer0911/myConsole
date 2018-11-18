@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Flex } from 'antd-mobile';
+import { Flex, Toast } from 'antd-mobile';
 import Table from 'rc-table';
 import "./index.css";
 
@@ -7,22 +7,22 @@ const columns = [
   {
     title: 'Url',
     dataIndex: 'url',
-    key: 'url',
+    key: 'url1212',
   },
   {
     title: 'Method',
     dataIndex: 'method',
-    key: 'method',
+    key: 'method21212',
   },
   {
     title: 'Status',
     dataIndex: 'status',
-    key: 'status',
+    key: 'status21212',
   },
   {
     title: 'Time',
     dataIndex: 'time',
-    key: 'time',
+    key: 'time12121',
   }
 ];
 
@@ -60,6 +60,11 @@ export default class Network extends PureComponent<any, State> {
     XHR.open('GET', 'http://localhost:3000/sockjs-node/info?t=1542431358944');
     XHR.send("requestData");
   }
+  getReqList() {
+    return Object.keys(this.state.reqList).map(key => {
+      return this.state.reqList[key]
+    })
+  }
   expandedRowRender = (record: ReqData) => {
     return (
       <div>
@@ -69,9 +74,10 @@ export default class Network extends PureComponent<any, State> {
       </div>
     )
   }
-  getReqList() {
-    return Object.keys(this.state.reqList).map(key => {
-      return this.state.reqList[key]
+  clearNetwork = () => {
+    Toast.info('清除完成！', 1);
+    this.setState({
+      reqList: {}
     })
   }
   render() {
@@ -85,6 +91,7 @@ export default class Network extends PureComponent<any, State> {
             align="center"
             style={{ flex: 1, borderRight: '1px solid #ddd' }}
             justify="center"
+            onClick={this.clearNetwork}
           >
             Clear
           </Flex>
@@ -111,7 +118,8 @@ export default class Network extends PureComponent<any, State> {
       this.XHRID = id;
       this.XHRDATA = {
         url,
-        method
+        method,
+        key: (+new Date())
       };
       this.onreadystatechange = function (...stateArgs: any) {
         switch (this.readyState) {

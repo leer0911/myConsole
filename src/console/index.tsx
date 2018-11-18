@@ -112,11 +112,11 @@ export class MyConsole extends Component<any, State> {
             <Tabs tabs={tabs} animated={false} tabBarBackgroundColor="#efefef">
               <Log
                 logList={logStore.computeLogList}
-              // togglePane={this.togglePane('paneShow')}
+                togglePane={this.togglePane}
               />
               <System />
               <Network />
-              <Element />
+              <Element togglePane={this.togglePane} />
               <Storage />
               <System />
             </Tabs>

@@ -1,5 +1,5 @@
 import React, { createRef, Component } from 'react';
-import { Flex, ActionSheet, List, SearchBar } from 'antd-mobile';
+import { Flex, ActionSheet, List, SearchBar, Toast } from 'antd-mobile';
 import { DataView } from '../../components/logView/';
 import { logStore } from '../store';
 import { LogType } from '../store/log';
@@ -9,6 +9,7 @@ const FlexItem = Flex.Item;
 const ListItem = List.Item;
 
 interface Props {
+  togglePane: () => void;
   logList: LogType[]
 }
 
@@ -97,13 +98,9 @@ export default class Log extends Component<Props, State> {
   clearLogs() {
     return () => {
       if (logStore.logList.length > 0) {
+        Toast.info('清除完成！', 1);
         logStore.clearLog();
       }
-    };
-  }
-  hidePane() {
-    return () => {
-      // cl
     };
   }
   sendCMD() {
@@ -167,7 +164,7 @@ export default class Log extends Component<Props, State> {
             {logStore.logType}
           </Flex>
           <Flex
-            // onClick={this.props.togglePane}
+            onClick={this.props.togglePane}
             align="center"
             style={{ flex: 1 }}
             justify="center"

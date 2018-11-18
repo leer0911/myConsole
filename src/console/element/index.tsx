@@ -4,7 +4,11 @@ import HTMLTree from '../../components/htmlView/htmlTree';
 
 const FlexItem = Flex.Item;
 
-export default class Element extends PureComponent<any, any> {
+interface Props {
+  togglePane: () => void;
+}
+
+export default class Element extends PureComponent<Props, any> {
   constructor(props: any) {
     super(props);
   }
@@ -20,7 +24,7 @@ export default class Element extends PureComponent<any, any> {
           </div>
         </FlexItem>
         <Flex align="stretch" style={{ height: '50px', background: '#efefef' }}>
-          <Flex align="center" style={{ flex: 1 }} justify="center">
+          <Flex align="center" style={{ flex: 1 }} justify="center" onClick={this.props.togglePane}>
             Hide
           </Flex>
         </Flex>

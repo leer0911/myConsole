@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Flex } from 'antd-mobile';
+import { Flex, Toast } from 'antd-mobile';
 import Table from 'rc-table';
 
 const columns = [{
@@ -11,13 +11,29 @@ const columns = [{
 interface StorageVal {
   key: string;
   value: string;
+  children?: StorageVal[]
+}
+
+interface State {
+  data: StorageVal[]
 }
 
 const FlexItem = Flex.Item
 
-export default class Storage extends PureComponent<any, any>{
+export default class Storage extends PureComponent<any, State>{
   constructor(props: any) {
     super(props);
+    this.state = {
+      data: [{
+        key: 'cookie', value: ''
+      },
+      {
+        key: 'localStorage', value: ''
+      }]
+    }
+  }
+  componentDidMount() {
+    this.setData()
   }
   getCookieList() {
     if (!document.cookie || !navigator.cookieEnabled) {
@@ -63,25 +79,56 @@ export default class Storage extends PureComponent<any, any>{
       return [];
     }
   }
+  setData() {
+    this.setState({
+      data: [
+        {
+          key: 'cookie', value: '', children: this.getCookieList()
+        },
+        {
+          key: 'localStorage', value: '', children: this.getLocalStorageList()
+        },
+      ]
+    })
+  }
+  clearCookieList() {
+    if (!document.cookie || !navigator.cookieEnabled) {
+      return;
+    }
 
+    const list = this.getCookieList();
+    for (const iterator of list) {
+      document.cookie = iterator.key + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
+  }
+  clearLocalStorageList() {
+    if (!!window.localStorage) {
+      try {
+        localStorage.clear();
+      } catch (e) {
+        alert('localStorage.clear() fail.');
+      }
+    }
+  }
+  refresh = () => {
+    this.setData()
+    Toast.info('刷新完成！', 1);
+  }
+  clear = () => {
+    this.clearCookieList()
+    this.clearLocalStorageList()
+    this.setData()
+    Toast.info('清除完成！', 1);
+  }
   render() {
-    const data = [
-      {
-        key: 'cookie', value: '', children: this.getCookieList()
-      },
-      {
-        key: 'localStorage', value: '', children: this.getLocalStorageList()
-      },
-    ];
-
     return (
       <Flex direction="column" align="stretch" style={{ height: '100%' }}>
         <FlexItem>
-          <Table expandRowByClick expandIconAsCell useFixedHeader columns={columns} data={data} />
+          <Table expandRowByClick expandIconAsCell useFixedHeader columns={columns} data={this.state.data} />
         </FlexItem>
         <Flex align="stretch" style={{ height: '50px', background: '#efefef' }}>
-          <Flex align="center" style={{ flex: 1, borderRight: '1px solid #ddd' }} justify="center">Refresh</Flex>
-          <Flex align="center" style={{ flex: 1, borderRight: '1px solid #ddd' }} justify="center">Clear</Flex>
+          <Flex onClick={this.refresh} align="center" style={{ flex: 1, borderRight: '1px solid #ddd' }} justify="center">Refresh</Flex>
+          <Flex onClick={this.clear} align="center" style={{ flex: 1, borderRight: '1px solid #ddd' }} justify="center">Clear</Flex>
           <Flex align="center" style={{ flex: 1 }} justify="center">Hide</Flex>
         </Flex>
       </Flex>
