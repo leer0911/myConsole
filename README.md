@@ -12,11 +12,10 @@
 
 ## 预览
 
-<figure class="half">
-    <img src="./doc/imgs/preview1.png" style="width:300px">
-    <img src="./doc/imgs/preview2.png" style="width:300px">
-</figure>
-
+<p class="half">
+    <img src="./doc/imgs/preview1.png" style="width:200px">
+    <img src="./doc/imgs/preview2.png" style="width:200px">
+</p>
 
 ## 开始
 
@@ -28,6 +27,10 @@ yarn
 yarn run start
 
 ```
+
+## 教程
+
+参见 [ts+react+mobx 实现移动端前端控制台](./doc/index.md)
 
 ## 参考
 
