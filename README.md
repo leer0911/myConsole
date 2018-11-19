@@ -12,9 +12,9 @@
 
 ## 预览
 
-<p class="half">
-    <img src="./doc/imgs/preview1.png" style="width:200px">
-    <img src="./doc/imgs/preview2.png" style="width:200px">
+<p>
+    <img src="./doc/imgs/preview1.png" width="200">
+    <img src="./doc/imgs/preview2.png" width="200">
 </p>
 
 ## 开始
@@ -30,7 +30,7 @@ yarn run start
 
 ## 教程
 
-参见 [ts+react+mobx 实现移动端前端控制台](./doc/index.md)
+参见 [ts+react+mobx 实现移动端浏览器控制台](./doc/index.md)
 
 ## 参考
 
