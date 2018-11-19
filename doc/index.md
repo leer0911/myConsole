@@ -24,7 +24,7 @@ Ts 编写的 [AntMobile](https://github.com/ant-design/ant-design-mobile/)。 �
 
 下面，先来看下预览图片
 
-<img src="./imgs/preview1.png" width = "300px" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/preview1.png" width = "300px" />
 
 UI 很简单，按功能划分为
 
@@ -35,7 +35,7 @@ UI 很简单，按功能划分为
 
 **主要从以上这几个功能模块展开**
 
-<small> PS: 教程会略过一些，诸如如何支持 stylus （ 项目执行过 npm run eject ），interface 要不要加 I，render 要不要 Public， 如何去除一些 Tslint 等。（ 跟踪文件 git history 可略知一二 ）</small>
+<small> PS: 教程会略过一些，诸如如何支持 stylus （ 项目执行过 yarn run eject ），interface 要不要加 I，render 要不要 Public， 如何去除一些 Tslint 等。（ 跟踪文件 git history 可略知一二 ）PWA 等</small>
 
 ## 基本代码风格
 
@@ -126,13 +126,13 @@ export default new LogStore();
 
 从之前的预览图片可以大致看到整个数据展示结构，都是 `key-value` 的形式。
 
-<img src="./imgs/logview0.png" width = "300px" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/logview0.png" width = "300px" />
 
 这里跟 Pc 端浏览器控制台不一样的是，没有展示 `__proto__` 相关的东西。然后，`function` 只是以方法名加括号的形式展示，如 `log()`。
 
 接下来我们看下这个 UI 对应的 html 结构。
 
-<img src="./imgs/logview.png" width = "300px" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/logview.png" width = "300px" />
 
 我们需要展示的就只是 key 和 value 以及父子缩进，典型的树形结构，递归可以搞定。
 
@@ -264,11 +264,11 @@ PS: 作为扩展，可以使用 [特征检测](https://modernizr.com/) 来检测
 
 回顾下 UI 界面
 
-<img src="./imgs/element.png" width = "300px" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/element.png" width = "300px" />
 
 如果数据来源是 `document.documentElement`，那不就是下图么!
 
-<img src="./imgs/code.png" width = "500px" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/code.png" width = "500px" />
 
 有必要的话，先熟悉下 [HTML5 标签](https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/HTML5/HTML5_element_list)，和 [DOM Node](https://developer.mozilla.org/zh-CN/docs/Web/API/Node)
 
@@ -276,7 +276,7 @@ PS: 作为扩展，可以使用 [特征检测](https://modernizr.com/) 来检测
 
 对于元素 (标签) 我们只需要知道两种不同的展示方式，自闭合标签以及非自闭合 (对于UI来说，仅仅是缩进的区别)，以及它们都是由标签名和属性组成，如：`<body style="background:#000"></body>` 或 `<img src="...">`。下面看下要实现这样一个 elemnt 的 html 结构是怎么样的：
 
-<img src="./imgs/htmlcode.png" width = "500px" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/htmlcode.png" width = "500px" />
 
 对应实现就是项目里的 `htmlView` 组件，主要的代码逻辑如下：
 
@@ -313,7 +313,7 @@ if (type === 'text' || type === 'comment') {
 
 对于 `htmlparser2` 的转换规则可以看这个 [demo](https://astexplorer.net/#/2AmVrGuGVJ)，`htmlparser2`得到的数据可能并不适用于渲染，经过处理后最终用于渲染数据的结构如下：
 
-<img src="./imgs/tree.png" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/tree.png" />
 
 依然是数据驱动的思路，剩下的就只是渲染的逻辑处理。
 
@@ -381,11 +381,40 @@ export default class Log extends Component<Props, State> {
 
 能总结的确实很少，对 Ts 中 type system 的感受就是少用 any。大概了解下常用的 React 和 window 的 type 即可。(在vscode 编辑器下。直接F12跳转到 window 或 React 定义处就可以看到所有的类型声明)
 
-<img src="./imgs/type2.png" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/type2.png" />
 
 另外在不知道类型的时候，可以利用类型推断来获取类型。
 
-<img src="./imgs/type.png" />
+<img src="https://raw.githubusercontent.com/leer0911/myConsole/release/doc/imgs/type.png" />
 
-我也是刚开始用 Typescript ，说多错多!不误人子弟了，就总结到这吧。(看文档才是王道)
+我也是刚开始用 Typescript ，说多错多!不误人子弟了，就总结到这吧。
+
+## yarn run eject
+
+使用 Create React App 脚手架创建完项目后，在 `package.json` 里面提供了这样一个命令
+
+```json
+{
+  "scripts": {
+    "eject": "react-scripts eject"
+  }
+}
+```
+
+执行完这个命令后，会将封装的配置全部反编译到当前项目，这样用户就可以完全取得webpack文件的控制权。出于学习目的，还是放出来比较好!
+
+Create React App 水好深，适合单独拎出来研究!
+
+## 总结
+
+不得不承认，这是一个练手的项目。可能都完全不适合用 Ts + React 来做，只是希望自己跨出这一步，拥抱 Ts。教程通篇围绕 **前端如何实现浏览器控制台** 展开，比较少介绍 TS + React 技巧方面。可以说是一种比较保守的实现方式 ( 因为不确定是不是最佳实践 )，
+希望抛砖引玉，有人可以 codeReview 下，不胜感激!另外，希望这篇教程有给大家带来一些知识扩展的作用。
+
+
+## 参考
+
+- [create-react-app](https://github.com/facebookincubator/create-react-app)
+- [vConsole](https://github.com/Tencent/vConsole)
+- [react-devtools](https://github.com/facebook/react-devtools)
+
 
